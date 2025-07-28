@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "disable_existing_loggers": true,
+
+  "filters": {
+    "no_errors": {
+      "()": "sinthia.core.logging.myNonErrorFilter.NonErrorFilter"
+    }
+  },
+
+  "formatters": {
+    "simple": {
+      "format": "[%(asctime)s - %(name)s - %(levelname)s] %(message)s - %(pathname)s:%(lineno)d",
+      "datefmt": "%Y-%m-%d %H:%M:%S"
+    },
+    "json": {
+      "()": "spectromobi.core.logging.myJsonFormatter.MyJSONFormatter",
+      "fmt_keys": {
+        "level": "levelname",
+        "message": "message",
+        "timestamp": "timestamp",
+        "logger": "name",
+        "module": "module",
+        "function": "funcName",
+        "line": "lineno",
+        "thread": "threadName"
+      }
+    }
+  },
+
+  "handlers": {
+    "stdout": {
+      "class": "logging.StreamHandler",
+      "formatter": "simple",
+      "stream": "ext://sys.stdout",
+      "filters": ["no_errors"],
+      "level": "INFO"
+    },
+    "stderr": {
+      "class": "logging.StreamHandler",
+      "formatter": "simple",
+      "stream": "ext://sys.stderr",
+      "level": "WARNING"
+    },
+
+    "dynamic_file": {
+      "class": "spectromobi.core.logging.myDynamicFileHandler.DynamicFileHandler",
+      "level": "DEBUG",
+      "formatter": "json",
+      "log_dir": "spectromobi/logs",
+      "maxBytes": 2097152,
+      "backupCount": 5
+    },
+
+    "queue_handler": {
+      "class": "logging.handlers.QueueHandler",
+      "handlers": [
+        "stderr",
+        "dynamic_file",
+        "stdout"
+      ],
+      "respect_handler_level": true
+    }
+  },
+
+  "loggers": {
+    "spectromobi": {
+      "level": "DEBUG",
+      "handlers": ["queue_handler"],
+      "propagate": false
+    },
+
+    "spectromobi.api": {
+        "level": "DEBUG",
+        "propagate": true
+    },
+    
+    "spectromobi.prediction": {
+      "level": "DEBUG",
+      "propagate": true
+    }
+  },
+
+  "root": {
+    "level": "WARNING",
+    "handlers": ["stderr"]
+  }
+}

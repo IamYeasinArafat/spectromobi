@@ -1,0 +1,11 @@
+[project]
+name = "spectromobi"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.116.1",
+    "joblib>=1.5.1",
+    "pydantic-settings>=2.10.1",
+]

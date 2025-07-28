@@ -1,0 +1,7 @@
+{
+    "python-envs.pythonProjects": [],
+    "code-runner.executorMap": {
+        "python": ".venv/bin/python"
+    }
+}
+

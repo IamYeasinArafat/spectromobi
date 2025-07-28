@@ -1,0 +1,1 @@
+from spectromobi.core.config import AppConfig
